@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Decode<T: Numeric> {
+class DecodeFloat<T: Numeric> : Decode {
     
     public func data(amount : Int = 1, from iterator: inout Data.Iterator) throws -> [T] {
         return [T](arrayLiteral: try decode(from: &iterator))

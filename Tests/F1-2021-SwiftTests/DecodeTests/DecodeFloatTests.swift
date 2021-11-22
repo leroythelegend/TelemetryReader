@@ -4,7 +4,7 @@ import XCTest
 final class DecodeFloatTests: XCTestCase {
     func testDecodeFloat() throws {
 
-        let decode = Decode<Float>()
+        let decode = DecodeFloat<Float>()
         
         // Test we throw if we past the size of the data
         let empty = Data()

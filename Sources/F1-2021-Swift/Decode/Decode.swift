@@ -7,6 +7,7 @@
 
 import Foundation
 
-//protocol Decode {
-//    func data(amount : Int, from iterator: inout Data.Iterator) throws -> [Double]
-//}
+protocol Decode {
+    associatedtype T
+    func data(amount : Int, from iterator: inout Data.Iterator) throws -> [T]
+}
