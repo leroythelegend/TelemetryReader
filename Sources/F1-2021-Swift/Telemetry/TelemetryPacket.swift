@@ -7,10 +7,9 @@
 
 import Foundation
 
-protocol Packet {
-    associatedtype T
+protocol TelemetryPacket {
     
-    typealias Telemetry = Dictionary<String, [T]>
+    typealias Telemetry = Dictionary<String, [Double]>
     typealias TelemetryPackets = Dictionary<String, Telemetry>
     
     func getTelemetryPackets(by telemetry: String) -> Telemetry

@@ -23,6 +23,12 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "F1-2021-SwiftTests",
-            dependencies: ["F1-2021-Swift"]),
+            dependencies: ["F1-2021-Swift"],
+            resources: [
+              // Copy Tests/ExampleTests/Resources directories as-is.
+              // Use to retain directory structure.
+              // Will be at top level in bundle.
+              .copy("TestFiles/event_packet.bin"),
+            ]),
     ]
 )
