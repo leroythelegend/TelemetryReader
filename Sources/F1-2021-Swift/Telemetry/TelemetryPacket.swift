@@ -7,10 +7,16 @@
 
 import Foundation
 
-protocol TelemetryPacket {
+class TelemetryPacket {
     
-    typealias Telemetry = Dictionary<String, [Double]>
-    typealias TelemetryPackets = Dictionary<String, Telemetry>
+    typealias TelemetryPackets = Dictionary<String, [Telemetry]>
     
-    func getTelemetryPackets(by telemetry: String) -> Telemetry
+    var telemetryPackets = TelemetryPackets()
+    
+    public func getTelemetryPackets(by name: String) throws -> [Telemetry] {
+        guard let result = self.telemetryPackets[name] else {
+            throw TelemetryError.unknown(telemetry: name)
+        }
+        return result
+    }
 }

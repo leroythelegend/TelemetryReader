@@ -37,7 +37,7 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testTelemetryHeader() throws {
         
-        let eventPacket = getDataFromTest(vector: "event_packet.bin")
+        let eventPacket = getDataFromTest(vector: "event_packet")
 
         var iter = eventPacket.makeIterator()
         let header = try? TelemetryHeader(data: &iter)
@@ -57,24 +57,21 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testTelemetryCarDamage() throws {
         
-//        let eventPacket = getDataFromTest(vector: "car_damage.bin")
-//
-//        var iter = eventPacket.makeIterator()
-//        let header = try? TelemetryCarDamage(data: &iter)
-//
-//        XCTAssertEqual(try! header?.getTelemetry(by: "PACKETFORMAT").first!, 2021)
-//        XCTAssertEqual(try! header?.getTelemetry(by: "GAMEMAJORVERSION").first!, 1)
-//        XCTAssertEqual(try! header?.getTelemetry(by: "GAMEMINORVERSION").first!, 4)
+        let cardamage = getDataFromTest(vector: "car_damage")
+
+        var iter = cardamage.makeIterator()
+        let packet = try? TelemetryCarDamagePacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryPackets(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMINORVERSION").first!, 8)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETID").first!, 10)
     }
     
     func getDataFromTest(vector: String) -> Data {
-        return try! Data(contentsOf: URL(fileURLWithPath: "\(removeFileFromEndOfFilePath())testVectors/\(vector)"))
-    }
-    
-    // could not find how to access the vectors through Resources?
-    func removeFileFromEndOfFilePath() -> String {
-        let endOfPath = #filePath.lastIndex(of: "/")!
-        let path = #filePath[...endOfPath]
-        return String(path)
+        return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
     }
 }

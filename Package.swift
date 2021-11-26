@@ -28,7 +28,17 @@ let package = Package(
               // Copy Tests/ExampleTests/Resources directories as-is.
               // Use to retain directory structure.
               // Will be at top level in bundle.
-              .copy("TestFiles/event_packet.bin"),
+              .copy("testVectors/event_packet.bin"),
+              .copy("testVectors/car_damage.bin"),
+              .copy("testVectors/motion_data.bin"),
+              .copy("testVectors/car_setup.bin"),
+              .copy("testVectors/session_packet.bin"),
+              .copy("testVectors/participant_data.bin"),
+              .copy("testVectors/car_status.bin"),
+              .copy("testVectors/history_packet.bin"),
+              .copy("testVectors/car_telemetry.bin"),
+              .copy("testVectors/lap_data.bin"),
+              .copy("testVectors/event_sptp.bin")
             ]),
     ]
 )
