@@ -57,9 +57,9 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testTelemetryCarDamage() throws {
         
-        let cardamage = getDataFromTest(vector: "car_damage")
+        let data = getDataFromTest(vector: "car_damage")
 
-        var iter = cardamage.makeIterator()
+        var iter = data.makeIterator()
         let packet = try? TelemetryCarDamagePacket(data: &iter)
         
         let header = try! packet?.getTelemetryPackets(by: "PACKETHEADER")
@@ -69,6 +69,36 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMINORVERSION").first!, 8)
         XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETVERSION").first!, 1)
         XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETID").first!, 10)
+        
+        let cardamage = try! packet?.getTelemetryPackets(by: "CARDAMAGE")
+        
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESWEAR")[0], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESWEAR")[1], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESWEAR")[2], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESWEAR")[3], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESDAMAGE")[0], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESDAMAGE")[1], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESDAMAGE")[2], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "TYRESDAMAGE")[3], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "BRAKESDAMAGE")[0], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "BRAKESDAMAGE")[1], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "BRAKESDAMAGE")[2], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "BRAKESDAMAGE")[3], 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "FRONTLEFTWINGDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "FRONTRIGHTWINGDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "REARWINGDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "FLOORDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "DIFFUSERDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "SIDEPODDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "DRSFAULT").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "GEARBOXDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEDAMAGE").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEMGUHWEAR").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEESWEAR").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINECEWEAR").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEICEWEAR").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEMGUKWEAR").first!, 0)
+        XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINETCWEAR").first!, 0)
     }
     
     func getDataFromTest(vector: String) -> Data {
