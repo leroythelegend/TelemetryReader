@@ -100,6 +100,47 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINEMGUKWEAR").first!, 0)
         XCTAssertEqual(try! cardamage?[0].getTelemetry(by: "ENGINETCWEAR").first!, 0)
     }
+
+    func testTelemetryCarSetup() throws {
+        
+        let data = getDataFromTest(vector: "car_setup")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryCarSetupPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryPackets(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMINORVERSION").first!, 8)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETID").first!, 5)
+        
+        let carSetup = try! packet?.getTelemetryPackets(by: "CARSETUP")
+        
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTWING")[0], 8)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARWING")[0], 8)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "ONTHROTTLE")[0], 75)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "OFFTHROTTLE")[0], 75)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTCAMBER")[0], -3)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARCAMBER")[0], -1.2000000476837158)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTTOE")[0], 0.090000003576278687)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARTOE")[0], 0.4100000262260437)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTSUSPENSION")[0], 8)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARSUSPENSION")[0], 2)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTANTIROLLBAR")[0], 8)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARANTIROLLBAR")[0], 1)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTSUSPENSIONHEIGHT").first!, 3)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARSUSPENSIONHEIGHT").first!, 7)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "BRAKEPRESSURE").first!, 95)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "BRAKEBIAS").first!, 58)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARLEFTTYREPRESSURE").first!, 23.100000381469727)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "REARRIGHTTYREPRESSURE").first!, 23.100000381469727)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTLEFTTYREPRESSURE").first!, 22.200000762939453)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FRONTRIGHTTYREPRESSURE").first!, 22.200000762939453)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "BALLAST").first!, 6)
+        XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FUELLOAD").first!, 20)
+    }
     
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
