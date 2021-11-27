@@ -35,6 +35,18 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! decodeUInt.decode8Bytes(from: &iter).first!, 4119579027)
     }
     
+    func testAnd() throws {
+        let value: [Double] = [0x10101010]
+        
+        XCTAssert(value.and(at: 0, with: 0x00000010) != 0)
+        XCTAssert(value.and(at: 0, with: 0x00000000) == 0)
+        XCTAssert(value.and(at: 0, with: 0x01010101) == 0)
+        XCTAssert(value.and(at: 0, with: 0x10101010) != 0)
+        XCTAssert(value.and(at: 0, with: 0x00001000) != 0)
+        XCTAssert(value.and(at: 0, with: 0x00100000) != 0)
+        XCTAssert(value.and(at: 0, with: 0x10000000) != 0)
+    }
+    
     func testTelemetryHeader() throws {
         
         let eventPacket = getDataFromTest(vector: "event_packet")

@@ -27,4 +27,8 @@ extension Array where Element == Double {
         }
         return result
     }
+    
+    func and(at i: Int, with: UInt) -> UInt {
+        return UInt(self[i]) & with
+    }
 }
