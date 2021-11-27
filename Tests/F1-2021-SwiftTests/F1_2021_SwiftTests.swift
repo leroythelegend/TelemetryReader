@@ -141,6 +141,64 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "BALLAST").first!, 6)
         XCTAssertEqual(try! carSetup?[0].getTelemetry(by: "FUELLOAD").first!, 20)
     }
+
+    func testTelemetryCarData() throws {
+        
+        let data = getDataFromTest(vector: "car_telemetry")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryCarPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryPackets(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMINORVERSION").first!, 5)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETID").first!, 6)
+        
+        let carTelemetry = try! packet?.getTelemetryPackets(by: "CARTELEMERTY")
+        
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "SPEED")[0], 253)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "THROTTLE")[0], 1)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "STEER")[0], -0.37254893779754639)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "BRAKE")[0], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "CLUTCH")[0], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "GEAR")[0], 6)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "ENGINERPM")[0], 11600)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "DRS")[0], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "REVLIGHTSPERCENT")[0], 68)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "REVLIGHTSBITVALUE")[0], 2047)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "BRAKESTEMPERATURE")[0], 29)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "BRAKESTEMPERATURE")[1], 29)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "BRAKESTEMPERATURE")[2], 29)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "BRAKESTEMPERATURE")[3], 29)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESSURFACETEMPERATURE")[0], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESSURFACETEMPERATURE")[1], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESSURFACETEMPERATURE")[2], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESSURFACETEMPERATURE")[3], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESINNERTEMPERATURE")[0], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESINNERTEMPERATURE")[1], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESINNERTEMPERATURE")[2], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESINNERTEMPERATURE")[3], 100)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "ENGINETEMPERATURE")[0], 90)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESPRESSURE")[0], 23.573812484741211)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESPRESSURE")[1], 23.573812484741211)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESPRESSURE")[2], 22.655353546142578)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "TYRESPRESSURE")[3], 22.655353546142578)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "SURFACETYPE")[0], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "SURFACETYPE")[1], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "SURFACETYPE")[2], 0)
+        XCTAssertEqual(try! carTelemetry?[0].getTelemetry(by: "SURFACETYPE")[3], 0)
+
+        let carTelemetryData = try! packet?.getTelemetryPackets(by: "CARTELEMERTYDATA")
+        
+        XCTAssertEqual(try! carTelemetryData?[0].getTelemetry(by: "MFDPANELINDEX")[0], 255)
+        XCTAssertEqual(try! carTelemetryData?[0].getTelemetry(by: "MFDPANELINDEXSECONDARYPLAYER")[0], 255)
+        XCTAssertEqual(try! carTelemetryData?[0].getTelemetry(by: "SUGGESTEDGEAR")[0], 0)
+    }
+
+    
     
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
