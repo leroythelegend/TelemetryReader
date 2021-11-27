@@ -198,7 +198,32 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! carTelemetryData?[0].getTelemetry(by: "SUGGESTEDGEAR")[0], 0)
     }
 
-    
+    func testTelemetrySpeedTrapEvent() throws {
+        
+        let data = getDataFromTest(vector: "event_sptp")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryEventPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryPackets(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "GAMEMINORVERSION").first!, 8)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetry(by: "PACKETID").first!, 3)
+        
+        let eventstring = try! packet?.getTelemetryPackets(by: "EVENTSTRING")
+        
+        XCTAssertEqual(try! eventstring?[0].getTelemetry(by: "EVENTSTRINGCODE").toString(), "SPTP")
+        
+        let speedTrap = try! packet?.getTelemetryPackets(by: "SPEEDTRAP")
+        
+        XCTAssertEqual(try! speedTrap?[0].getTelemetry(by: "VEHICLEIDX")[0], 17)
+        XCTAssertEqual(try! speedTrap?[0].getTelemetry(by: "SPEED")[0], 307.86004638671875)
+        XCTAssertEqual(try! speedTrap?[0].getTelemetry(by: "OVERALLFASTESTINSESSION")[0], 0)
+        XCTAssertEqual(try! speedTrap?[0].getTelemetry(by: "DRIVERFASTESTINSESSION")[0], 0)
+    }
     
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))

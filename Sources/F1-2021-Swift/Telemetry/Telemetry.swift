@@ -18,3 +18,13 @@ class Telemetry {
         return result
     }
 }
+
+extension Array where Element == Double {
+    func toString() -> String {
+        var result: String = String()
+        for d in self {
+            result.append(Character(Unicode.Scalar(Int(d))!))
+        }
+        return result
+    }
+}
