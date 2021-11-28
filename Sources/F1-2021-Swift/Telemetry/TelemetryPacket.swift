@@ -29,7 +29,7 @@ class TelemetryPacket {
         return result
     }
     
-    public func createTelemetryData<T>(data iter: inout Data.Iterator, size: Int = 1) throws -> [T] where T: Telemetry {
+    static public func createTelemetryData<T>(data iter: inout Data.Iterator, size: Int = 1) throws -> [T] where T: Telemetry {
         var telemetry: [T] = []
         for _ in 1...size {
             telemetry.append(try T(data: &iter))

@@ -9,6 +9,7 @@ import Foundation
 
 class Telemetry {
     
+    let DescriptionStringLength = 48
     var telemetry: [String: [Double]] = [:]
     
     required init(data iter: inout Data.Iterator) throws {}

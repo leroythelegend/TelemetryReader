@@ -14,7 +14,7 @@ class TelemetryLobbyInfo: Telemetry {
     
         self.telemetry["AICONTROLLED"] = try Decode<UInt>().decodeByte(from: &iter)
         self.telemetry["TEAMID"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["NATIONALITY"] = try Decode<UInt>().decodeByte(amount: 48, from: &iter)
+        self.telemetry["NATIONALITY"] = try Decode<UInt>().decodeByte(amount: DescriptionStringLength, from: &iter)
         self.telemetry["NAME"] = try Decode<UInt>().decodeByte(from: &iter)
         self.telemetry["CARNUMBER"] = try Decode<UInt>().decodeByte(from: &iter)
         self.telemetry["READYSTATUS"] = try Decode<UInt>().decodeByte(from: &iter)

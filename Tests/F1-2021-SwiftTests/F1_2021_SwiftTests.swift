@@ -373,6 +373,38 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! motion?[0].getTelemetryData(by: "FRONTWHEELSANGLE")[0], 0)
     }
 
+    func testParticipantsData() throws {
+        
+        let data = getDataFromTest(vector: "participant_data")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryParticipantsDataPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryData(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMINORVERSION").first!, 8)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETID").first!, 4)
+        
+        let activeCars = try! packet?.getTelemetryData(by: "ACTIVECARS")
+        
+        XCTAssertEqual(try! activeCars?[0].getTelemetryData(by: "NUMACTIVECARS")[0], 20)
+
+        let participant = try! packet?.getTelemetryData(by: "PARTICIPANTDATA")
+                       
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "AICONTROLLED")[0], 1)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "DRIVERID")[0], 14)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "NETWORKID")[0], 255)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "TEAMID")[0], 2)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "MYTEAM")[0], 0)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "RACENUMBER")[0], 11)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "NATIONALITY")[0], 52)
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "NAME").toString(), "PEREZ")
+        XCTAssertEqual(try! participant?[0].getTelemetryData(by: "YOURTELEMETRY")[0], 1)
+    }
+    
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
     }
