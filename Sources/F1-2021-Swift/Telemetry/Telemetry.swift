@@ -11,7 +11,9 @@ class Telemetry {
     
     var telemetry: [String: [Double]] = [:]
     
-    func getTelemetry(by name: String) throws -> [Double] {
+    required init(data iter: inout Data.Iterator) throws {}
+    
+    func getTelemetryData(by name: String) throws -> [Double] {
         guard let result = telemetry[name] else {
             throw TelemetryError.unknown(telemetry: name)
         }
@@ -20,6 +22,7 @@ class Telemetry {
 }
 
 extension Array where Element == Double {
+    
     func toString() -> String {
         var result: String = String()
         for d in self {

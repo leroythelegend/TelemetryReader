@@ -9,8 +9,8 @@ import Foundation
 
 class TelemetryCarSetup: Telemetry {
 
-    init(data iter: inout Data.Iterator) throws {
-        super.init()
+    required init(data iter: inout Data.Iterator) throws {
+        try super.init(data: &iter)
     
         self.telemetry["FRONTWING"] = try Decode<UInt>().decodeByte(from: &iter)
         self.telemetry["REARWING"] = try Decode<UInt>().decodeByte(from: &iter)

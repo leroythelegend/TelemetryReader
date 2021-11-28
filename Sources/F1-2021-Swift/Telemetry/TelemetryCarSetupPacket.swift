@@ -11,12 +11,8 @@ class TelemetryCarSetupPacket: TelemetryPacket {
     
     override init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
-        
-        // get car damage telemetry
-        var carSetUpTelemetry: [Telemetry] = []
-        for _ in 1...NumberOfParticipants {
-            carSetUpTelemetry.append(try TelemetryCarSetup(data: &iter))
-        }
+
+        let carSetUpTelemetry: [TelemetryCarSetup] = try createTelemetryData(data: &iter, size: NumberOfParticipants)
         self.telemetryPackets["CARSETUP"] = carSetUpTelemetry
     }
 }

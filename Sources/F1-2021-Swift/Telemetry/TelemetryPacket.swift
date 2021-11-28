@@ -22,10 +22,18 @@ class TelemetryPacket {
     }
 
     
-    public func getTelemetryPackets(by name: String) throws -> [Telemetry] {
+    public func getTelemetryData(by name: String) throws -> [Telemetry] {
         guard let result = self.telemetryPackets[name] else {
             throw TelemetryError.unknown(telemetry: name)
         }
         return result
+    }
+    
+    public func createTelemetryData<T>(data iter: inout Data.Iterator, size: Int = 1) throws -> [T] where T: Telemetry {
+        var telemetry: [T] = []
+        for _ in 1...size {
+            telemetry.append(try T(data: &iter))
+        }
+        return telemetry
     }
 }

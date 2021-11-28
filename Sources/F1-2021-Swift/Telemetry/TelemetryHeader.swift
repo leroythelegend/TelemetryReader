@@ -9,8 +9,8 @@ import Foundation
 
 class TelemetryHeader: Telemetry {
 
-    init(data iter: inout Data.Iterator) throws {
-        super.init()
+    required init(data iter: inout Data.Iterator) throws {
+        try super.init(data: &iter)
     
         self.telemetry["PACKETFORMAT"] = try Decode<UInt>().decode2Bytes(from: &iter)
         self.telemetry["GAMEMAJORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)

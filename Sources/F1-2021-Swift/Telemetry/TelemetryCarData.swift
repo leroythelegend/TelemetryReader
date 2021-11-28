@@ -17,8 +17,8 @@ import Foundation
 
 class TelemetryCarData: Telemetry {
 
-    init(data iter: inout Data.Iterator) throws {
-        super.init()
+    required init(data iter: inout Data.Iterator) throws {
+        try super.init(data: &iter)
     
         self.telemetry["MFDPANELINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
         self.telemetry["MFDPANELINDEXSECONDARYPLAYER"] = try Decode<UInt>().decodeByte(from: &iter)
