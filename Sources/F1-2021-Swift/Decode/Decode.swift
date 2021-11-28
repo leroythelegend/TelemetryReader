@@ -96,7 +96,9 @@ class Decode<T: Numeric> {
     }
     
     private func unwrap(_ byte: UInt8?) throws -> UInt8 {
-        return try byte ?? {throw DecodeError.OutOfBounds}()
+        return try byte ?? {
+            throw DecodeError.OutOfBounds
+        }()
     }
     
     private func decodeSpecific(_ value: UInt32) -> Double {

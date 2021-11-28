@@ -263,6 +263,49 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! speedTrap?[0].getTelemetryData(by: "OVERALLFASTESTINSESSION")[0], 0)
         XCTAssertEqual(try! speedTrap?[0].getTelemetryData(by: "DRIVERFASTESTINSESSION")[0], 0)
     }
+
+    func testLapData() throws {
+        
+        let data = getDataFromTest(vector: "lap_data")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryLapDataPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryData(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMINORVERSION").first!, 7)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETID").first!, 2)
+        
+        let lapdata = try! packet?.getTelemetryData(by: "LAPDATA")
+        
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "LASTLAPTIMEINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "CURRENTLAPTIMEINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "SECTOR1TIMEINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "SECTOR2TIMEINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "LAPDISTANCE")[0], -5456.56787109375)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "TOTALDISTANCE")[0], -5456.56787109375)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "SAFETYCARDELTA")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "CARPOSITION")[0], 8)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "CURRENTLAPNUM")[0], 1)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITSTATUS")[0], 1)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "NUMPITSTOPS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "SECTOR")[0], 2)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "CURRENTLAPINVALID")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PENALTIES")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "WARNINGS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "NUMUNSERVEDDRIVETHROUGHPENS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "NUMUNSERVEDSTOPGOPENS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "GRIDPOSITION")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "DRIVERSTATUS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "RESULTSTATUS")[0], 2)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITLANETIMERACTIVE")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITLANETIMEINLANEINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITSTOPTIMERINMS")[0], 0)
+        XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITSTOPSHOULDSERVEPEN")[0], 0)
+    }
     
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
