@@ -307,6 +307,72 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! lapdata?[0].getTelemetryData(by: "PITSTOPSHOULDSERVEPEN")[0], 0)
     }
     
+    func testMotionData() throws {
+        
+        let data = getDataFromTest(vector: "motion_data")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetryMotionPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryData(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMINORVERSION").first!, 8)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETID").first!, 0)
+        
+        let carMotion = try! packet?.getTelemetryData(by: "CARMOTIONDATA")
+        
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDPOSITIONX")[0], 22.669370651245117)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDPOSITIONY")[0], 3.3167672157287598)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDPOSITIONZ")[0], 552.17596435546875)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDVELOCITYX")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDVELOCITYY")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDVELOCITYZ")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDFORWARDDIRX")[0], -22788)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDFORWARDDIRY")[0], -287)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDFORWARDDIRZ")[0], 23542)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDRIGHTDIRX")[0], -23543)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDRIGHTDIRY")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "WORLDRIGHTDIRZ")[0], -22789)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "GFORCELATERAL")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "GFORCELONGITUDINAL")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "GFORCEVERTICAL")[0], 0)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "YAW")[0], -0.76910978555679321)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "PITCH")[0], -0.006103533785790205)
+        XCTAssertEqual(try! carMotion?[0].getTelemetryData(by: "ROLL")[0], -1.2873906598542817e-05)
+
+        let motion = try! packet?.getTelemetryData(by: "MOTIONDATA")
+                       
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONPOSITION")[0], 1.6951656341552734)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONPOSITION")[1], 1.9155979156494141)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONPOSITION")[2], 9.24957275390625)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONPOSITION")[3], 9.1767473220825195)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONVELOCITY")[0], 31.996639251708984)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONVELOCITY")[1], 32.093448638916016)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONVELOCITY")[2], 6.7265887260437012)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "SUSPENSIONVELOCITY")[3], 5.0883455276489258)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSPEED")[0], 70.440185546875)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSPEED")[1], 70.448707580566406)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSPEED")[2], 70.060035705566406)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSPEED")[3], 70.064498901367188)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSLIP")[0], 0.0058781877160072327)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSLIP")[1], 0.0059530939906835556)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSLIP")[2], 0.00042044464498758316)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "WHEELSLIP")[3], 0.00043327902676537633)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "LOCALVELOCITYX")[0], -0.0067737055942416191)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "LOCALVELOCITYY")[0], -0.14525362849235535)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "LOCALVELOCITYZ")[0], 70.032707214355469)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARVELOCITYX")[0], 0.00016996217891573906)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARVELOCITYY")[0], 0.0022311185020953417)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARVELOCITYZ")[0], -0.015569943934679031)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARACCELERATIONX")[0], -0.31259262561798096)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARACCELERATIONY")[0], 0.0033809468150138855)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "ANGULARACCELERATIONZ")[0], -0.10543192178010941)
+        XCTAssertEqual(try! motion?[0].getTelemetryData(by: "FRONTWHEELSANGLE")[0], 0)
+    }
+
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
     }
