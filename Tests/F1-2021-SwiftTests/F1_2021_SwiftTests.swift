@@ -405,6 +405,120 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(try! participant?[0].getTelemetryData(by: "YOURTELEMETRY")[0], 1)
     }
     
+    func testSessionData() throws {
+        
+        let data = getDataFromTest(vector: "session_packet")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetrySessionDataPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryData(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMINORVERSION").first!, 6)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETID").first!, 1)
+        
+        let marshalZone = try! packet?.getTelemetryData(by: "MARSHALZONE")
+        
+        XCTAssertEqual(try! marshalZone?[0].getTelemetryData(by: "ZONESTART")[0], 0.0024357740767300129)
+        XCTAssertEqual(try! marshalZone?[0].getTelemetryData(by: "ZONEFLAG")[0], 0)
+        
+        let weatherForcastSample = try! packet?.getTelemetryData(by: "WEATHERFORECASTSAMPLE")
+   
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "SESSIONTYPE")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "TIMEOFFSET")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "WEATHER")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "TRACKTEMPERATURE")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "TRACKTEMPERATURECHANGE")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "AIRTEMPERATURE")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "AIRTEMPERATURECHANGE")[0], 0)
+        XCTAssertEqual(try! weatherForcastSample?[0].getTelemetryData(by: "RAINPERCENTAGE")[0], 0)
+        
+        let sessionData = try! packet?.getTelemetryData(by: "SESSIONDATA")
+        
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "WEATHER")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "TRACKTEMPERATURE")[0], 32)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "AIRTEMPERATURE")[0], 24)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "TOTALLAPS")[0], 200)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "TRACKLENGTH")[0], 5301)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SESSIONTYPE")[0], 13)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "TRACKID")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "FORMULA")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SESSIONTIMELEFT")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SESSIONDURATION")[0], 600)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITSPEEDLIMIT")[0], 60)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "GAMEPAUSED")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "ISSPECTATING")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SPECTATORCARINDEX")[0], 255)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SLIPRONATIVESUPPORT")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "NUMMARSHALZONES")[0], 20)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SAFETYCARSTATUS")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "NETWORKGAME")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "NUMWEATHERFORECASTSAMPLES")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "FORECASTACCURACY")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "AIDIFFICULTY")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SEASONLINKIDENTIFIER")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "WEEKENDLINKIDENTIFIER")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "SEASONLINKIDENTIFIER")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITSTOPWINDOWIDEALLAP")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITSTOPWINDOWLATESTLAP")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITSTOPREJOINPOSITION")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "STEERINGASSIST")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "BRAKINGASSIST")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "GEARBOXASSIST")[0], 1)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITASSIST")[0], 1)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "PITRELEASEASSIST")[0], 1)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "ERSASSIST")[0], 1)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "DRSASSIST")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "DYNAMICRACINGLINE")[0], 0)
+        XCTAssertEqual(try! sessionData?[0].getTelemetryData(by: "DYNAMICRACINGLINETYPE")[0], 0)
+    }
+
+    func testSessionHistory() throws {
+        
+        let data = getDataFromTest(vector: "history_packet")
+
+        var iter = data.makeIterator()
+        let packet = try? TelemetrySessionHistoryDataPacket(data: &iter)
+        
+        let header = try! packet?.getTelemetryData(by: "PACKETHEADER")
+        
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETFORMAT").first!, 2021)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMAJORVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "GAMEMINORVERSION").first!, 6)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETVERSION").first!, 1)
+        XCTAssertEqual(try! header?.first!.getTelemetryData(by: "PACKETID").first!, 11)
+        
+        let lapHistory = try! packet?.getTelemetryData(by: "LAPHISTORYDATA")
+        
+        XCTAssertEqual(try! lapHistory?.first!.getTelemetryData(by: "LAPTIMEINMS").first!, 0)
+        XCTAssertEqual(try! lapHistory?.first!.getTelemetryData(by: "SECTOR1TIMEINMS").first!, 0)
+        XCTAssertEqual(try! lapHistory?.first!.getTelemetryData(by: "SECTOR2TIMEINMS").first!, 0)
+        XCTAssertEqual(try! lapHistory?.first!.getTelemetryData(by: "SECTOR3TIMEINMS").first!, 0)
+        XCTAssert(try! lapHistory?.first!.getTelemetryData(by: "LAPVALIDBITFLAGS").and(at: 0, with: 0x01) != nil)
+        XCTAssert(try! lapHistory?.first!.getTelemetryData(by: "LAPVALIDBITFLAGS").and(at: 0, with: 0x02) != nil)
+        XCTAssert(try! lapHistory?.first!.getTelemetryData(by: "LAPVALIDBITFLAGS").and(at: 0, with: 0x04) != nil)
+        XCTAssert(try! lapHistory?.first!.getTelemetryData(by: "LAPVALIDBITFLAGS").and(at: 0, with: 0x08) != nil)
+        
+        let tyreStintHistory = try! packet?.getTelemetryData(by: "TYRESTINTHISTORYDATA")
+    
+        XCTAssertEqual(try! tyreStintHistory?.first!.getTelemetryData(by: "ENDLAP").first!, 255)
+        XCTAssertEqual(try! tyreStintHistory?.first!.getTelemetryData(by: "TYREACTUALCOMPOUND").first!, 19)
+        XCTAssertEqual(try! tyreStintHistory?.first!.getTelemetryData(by: "TYREVISUALCOMPOUND").first!, 18)
+        
+        let sessionHistoryData = try! packet?.getTelemetryData(by: "SESSIONHISTORYDATA")
+        
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "CARIDX").first!, 10)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "NUMLAPS").first!, 1)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "NUMTYRESTINTS").first!, 1)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "BESTLAPTIMELAPNUM").first!, 0)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "BESTSECTOR1LAPNUM").first!, 0)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "BESTSECTOR2LAPNUM").first!, 0)
+        XCTAssertEqual(try! sessionHistoryData?.first!.getTelemetryData(by: "BESTSECTOR3LAPNUM").first!, 0)
+    }
+    
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
     }

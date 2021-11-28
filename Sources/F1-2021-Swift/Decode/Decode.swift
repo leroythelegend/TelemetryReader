@@ -90,7 +90,7 @@ class Decode<T: Numeric> {
     
     private func convertByte(from iterator: inout Data.Iterator) throws -> Double {
         
-        let value = UInt32(try unwrap(iterator.next()))
+        let value = UInt8(try unwrap(iterator.next()))
         
         return decodeSpecific(value)
     }
@@ -130,12 +130,36 @@ class Decode<T: Numeric> {
             return Double(value)
         }
     }
+
+    private func decodeSpecific(_ value: UInt8) -> Double {
+        if T.self is Float.Type {
+            return Double(Float32(bitPattern: UInt32(value)))
+        }
+        else if T.self is UInt.Type {
+            return Double(value)
+        }
+        else if T.self is Int.Type {
+            return Double(toInt(value))
+        }
+        else {
+            return Double(value)
+        }
+    }
     
     private func toInt(_ unsigned: UInt16) -> Int16 {
 
         let signed = (unsigned <= UInt16(Int16.max)) ?
             Int16(unsigned) :
             Int16(unsigned - UInt16(Int16.max) - 1) + Int16.min
+
+        return signed
+    }
+
+    private func toInt(_ unsigned: UInt8) -> Int8 {
+
+        let signed = (unsigned <= UInt8(Int8.max)) ?
+            Int8(unsigned) :
+            Int8(unsigned - UInt8(Int8.max) - 1) + Int8.min
 
         return signed
     }
