@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryParticipants: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["AICONTROLLED"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["DRIVERID"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["NETWORKID"] = try Decode<UInt>().decodeByte(from: &iter)

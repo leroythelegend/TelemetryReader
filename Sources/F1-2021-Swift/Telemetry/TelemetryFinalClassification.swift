@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryFinalClassification: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {    
         self.data["POSITION"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["NUMLAPS"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["GRIDPOSITION"] = try Decode<UInt>().decodeByte(from: &iter)

@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryLapData: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["LASTLAPTIMEINMS"] = try Decode<UInt>().decode4Bytes(from: &iter)
         self.data["CURRENTLAPTIMEINMS"] = try Decode<UInt>().decode4Bytes(from: &iter)
         self.data["SECTOR1TIMEINMS"] = try Decode<UInt>().decode2Bytes(from: &iter)

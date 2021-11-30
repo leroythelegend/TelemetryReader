@@ -7,12 +7,13 @@
 
 import Foundation
 
-class Telemetry {
+let DescriptionStringLength = 48
+
+protocol Telemetry {
+
+    var data: [String: [Double]] { get set }
     
-    let DescriptionStringLength = 48
-    var data: [String: [Double]] = [:]
-    
-    required init(data iter: inout Data.Iterator) throws {}
+    init(data iter: inout Data.Iterator) throws
 }
 
 

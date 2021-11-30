@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryNumberClassificationCars: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["NUMCLASSIFICATIONCARS"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }

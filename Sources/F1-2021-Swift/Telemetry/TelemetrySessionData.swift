@@ -8,6 +8,7 @@
 import Foundation
 
 class TelemetrySessionData: Telemetry {
+    var data: [String : [Double]] = [:]
     
     var marshalZone: [TelemetryMarshalZone] = []
     var weatherForeastSamples: [TelemetryWeatherForecastSample] = []
@@ -16,8 +17,6 @@ class TelemetrySessionData: Telemetry {
     let MaxNumWeatherForeastSamples = 56
 
     required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
-    
         self.data["WEATHER"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["TRACKTEMPERATURE"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["AIRTEMPERATURE"] = try Decode<UInt>().decodeByte(from: &iter)

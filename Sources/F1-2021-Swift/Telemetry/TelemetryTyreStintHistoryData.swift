@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryTyreStintHistoryData: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["ENDLAP"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["TYREACTUALCOMPOUND"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["TYREVISUALCOMPOUND"] = try Decode<UInt>().decodeByte(from: &iter)

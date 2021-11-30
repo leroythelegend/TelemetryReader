@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetrySessionHistoryData: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["CARIDX"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["NUMLAPS"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["NUMTYRESTINTS"] = try Decode<UInt>().decodeByte(from: &iter)

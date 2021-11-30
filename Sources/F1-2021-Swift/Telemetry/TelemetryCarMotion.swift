@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryCarMotion: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["WORLDPOSITIONX"] = try Decode<Float>().decode4Bytes(from: &iter)
         self.data["WORLDPOSITIONY"] = try Decode<Float>().decode4Bytes(from: &iter)
         self.data["WORLDPOSITIONZ"] = try Decode<Float>().decode4Bytes(from: &iter)

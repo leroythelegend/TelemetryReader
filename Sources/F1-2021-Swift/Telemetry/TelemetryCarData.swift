@@ -16,10 +16,9 @@ import Foundation
 import Foundation
 
 class TelemetryCarData: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["MFDPANELINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["MFDPANELINDEXSECONDARYPLAYER"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["SUGGESTEDGEAR"] = try Decode<UInt>().decodeByte(from: &iter)

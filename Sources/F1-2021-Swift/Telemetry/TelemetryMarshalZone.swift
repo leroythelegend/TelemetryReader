@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryMarshalZone: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {    
         self.data["ZONESTART"] = try Decode<Float>().decode4Bytes(from: &iter)
         self.data["ZONEFLAG"] = try Decode<Int>().decodeByte(from: &iter)
     }

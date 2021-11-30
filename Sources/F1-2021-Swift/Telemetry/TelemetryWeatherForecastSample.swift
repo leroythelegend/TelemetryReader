@@ -8,10 +8,9 @@
 import Foundation
 
 class TelemetryWeatherForecastSample: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["SESSIONTYPE"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["TIMEOFFSET"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["WEATHER"] = try Decode<UInt>().decodeByte(from: &iter)

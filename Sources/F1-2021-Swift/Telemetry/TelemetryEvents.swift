@@ -8,20 +8,18 @@
 import Foundation
 
 class TelemetryFastestLapEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["VEHICLEIDX"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["LAPTIME"] = try Decode<Float>().decode4Bytes(from: &iter)
     }
 }
 
 class TelemetryRetirementEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["VEHICLEIDX"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }
@@ -32,10 +30,9 @@ typealias TelemetryStopGoPenaltyServedEvent = TelemetryRetirementEvent
 typealias TelemetryDriveThroughPenaltyServedEvent = TelemetryRetirementEvent
 
 class TelemetryPenaltyEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["PENALTYTYPE"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["INFRINGEMENTTYPE"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["VEHICLEIDX"] = try Decode<UInt>().decodeByte(from: &iter)
@@ -47,10 +44,9 @@ class TelemetryPenaltyEvent: Telemetry {
 }
 
 class TelemetrySpeedTrapEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["VEHICLEIDX"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["SPEED"] = try Decode<Float>().decode4Bytes(from: &iter)
         self.data["OVERALLFASTESTINSESSION"] = try Decode<UInt>().decodeByte(from: &iter)
@@ -60,29 +56,26 @@ class TelemetrySpeedTrapEvent: Telemetry {
 
 
 class TelemetryStartLightsEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["NUMLIGHTS"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }
 
 class TelemetryButtonsEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["BUTTONSTATUS"] = try Decode<UInt>().decode4Bytes(from: &iter)
     }
 }
 
 
 class TelemetryFlashBackEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {
         self.data["FLASHBACKFRAMEIDENTIFIER"] = try Decode<UInt>().decode4Bytes(from: &iter)
         self.data["FLASHBACKSESSIONTIME"] = try Decode<Float>().decode4Bytes(from: &iter)
     }
@@ -90,10 +83,9 @@ class TelemetryFlashBackEvent: Telemetry {
 
 
 class TelemetryEvent: Telemetry {
-
-    required init(data iter: inout Data.Iterator) throws {
-        try super.init(data: &iter)
+    var data: [String : [Double]] = [:]
     
+    required init(data iter: inout Data.Iterator) throws {  
         self.data["EVENTSTRINGCODE"] = try Decode<UInt>().decodeByte(amount: 4, from: &iter)
     }
 }
