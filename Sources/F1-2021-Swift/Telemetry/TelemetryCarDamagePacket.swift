@@ -13,6 +13,6 @@ class TelemetryCarDamagePacket: TelemetryPacket {
         try super.init(data: &iter)
         
         let telemetry: [TelemetryCarDamage] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.telemetryPackets["CARDAMAGE"]  = telemetry
+        self.data["CARDAMAGE"]  = telemetry
     }
 }

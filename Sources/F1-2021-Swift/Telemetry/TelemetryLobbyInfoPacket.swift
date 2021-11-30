@@ -13,9 +13,9 @@ class TelemetryLobbyInfoPacket: TelemetryPacket {
         try super.init(data: &iter)
        
         let numberOfPlayers: [TelemetryNumberOfPlayers] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.telemetryPackets["NUMPLAYERS"] = numberOfPlayers
+        self.data["NUMPLAYERS"] = numberOfPlayers
 
         let lobbyInfo: [TelemetryLobbyInfo] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.telemetryPackets["LOBBYINFODATA"] = lobbyInfo
+        self.data["LOBBYINFODATA"] = lobbyInfo
     }
 }

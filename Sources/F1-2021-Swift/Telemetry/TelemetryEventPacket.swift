@@ -13,42 +13,42 @@ class TelemetryEventPacket: TelemetryPacket {
         try super.init(data: &iter)
         
         let eventString: [TelemetryEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.telemetryPackets["EVENTSTRING"] = eventString
+        self.data["EVENTSTRING"] = eventString
         
         switch String(try eventString[0].getTelemetryData(by: "EVENTSTRINGCODE").toString()) {
         case "BUTN":
             let event: [TelemetryButtonsEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["BUTTONS"] = event
+            self.data["BUTTONS"] = event
         case "FLBK":
             let event: [TelemetryFlashBackEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["FLASHBACK"] = event
+            self.data["FLASHBACK"] = event
         case "SGSV":
             let event: [TelemetryStopGoPenaltyServedEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["STOPGOPENALTYSERVED"] = event
+            self.data["STOPGOPENALTYSERVED"] = event
         case "DTSV":
             let event: [TelemetryDriveThroughPenaltyServedEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["DRIVETHROUGHPENALTYSERVED"] = event
+            self.data["DRIVETHROUGHPENALTYSERVED"] = event
         case "STLG":
             let event: [TelemetryStartLightsEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["STARTLIGHTS"] = event
+            self.data["STARTLIGHTS"] = event
         case "SPTP":
             let event: [TelemetrySpeedTrapEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["SPEEDTRAP"] = event
+            self.data["SPEEDTRAP"] = event
         case "PENA":
             let event: [TelemetryPenaltyEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["PENALTY"] = event
+            self.data["PENALTY"] = event
         case "RCWN":
             let event: [TelemetryRaceWinnerEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["RACEWINNER"] = event
+            self.data["RACEWINNER"] = event
         case "TMPT":
             let event: [TelemetryTeamMateInPitsEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["TEAMMATEINPITS"] = event
+            self.data["TEAMMATEINPITS"] = event
         case "RTME":
             let event: [TelemetryRetirementEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["RETIREMENT"] = event
+            self.data["RETIREMENT"] = event
         case "FTLP":
             let event: [TelemetryFastestLapEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-            self.telemetryPackets["FASTESTLAP"] = event
+            self.data["FASTESTLAP"] = event
         case "SSTA", "SEND", "DRSE", "DRSD", "CHQF":
             break
         default:

@@ -20,8 +20,8 @@ class TelemetryCarData: Telemetry {
     required init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
     
-        self.telemetry["MFDPANELINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["MFDPANELINDEXSECONDARYPLAYER"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["SUGGESTEDGEAR"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["MFDPANELINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["MFDPANELINDEXSECONDARYPLAYER"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["SUGGESTEDGEAR"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }

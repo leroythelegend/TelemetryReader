@@ -15,8 +15,8 @@ class TelemetrySessionDataPacket: TelemetryPacket {
         let session = try TelemetrySessionData(data: &iter)
         let sessions: [TelemetrySessionData] = [session]
         
-        self.telemetryPackets["SESSIONDATA"] = sessions
-        self.telemetryPackets["MARSHALZONE"] = session.marshalZone
-        self.telemetryPackets["WEATHERFORECASTSAMPLE"] = session.weatherForeastSamples
+        self.data["SESSIONDATA"] = sessions
+        self.data["MARSHALZONE"] = session.marshalZone
+        self.data["WEATHERFORECASTSAMPLE"] = session.weatherForeastSamples
     }
 }

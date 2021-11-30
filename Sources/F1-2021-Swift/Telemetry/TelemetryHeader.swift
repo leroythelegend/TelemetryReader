@@ -12,16 +12,16 @@ class TelemetryHeader: Telemetry {
     required init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
     
-        self.telemetry["PACKETFORMAT"] = try Decode<UInt>().decode2Bytes(from: &iter)
-        self.telemetry["GAMEMAJORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["GAMEMINORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["PACKETVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["PACKETID"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["SESSIONUID"] = try Decode<UInt>().decode8Bytes(from: &iter)
-        self.telemetry["SESSIONTIME"] = try Decode<Float>().decode4Bytes(from: &iter)
-        self.telemetry["FRAMEIDENTIFIER"] = try Decode<UInt>().decode4Bytes(from: &iter)
-        self.telemetry["PLAYERCARINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["SECONDARYPLAYERCARINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["PACKETFORMAT"] = try Decode<UInt>().decode2Bytes(from: &iter)
+        self.data["GAMEMAJORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["GAMEMINORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["PACKETVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["PACKETID"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["SESSIONUID"] = try Decode<UInt>().decode8Bytes(from: &iter)
+        self.data["SESSIONTIME"] = try Decode<Float>().decode4Bytes(from: &iter)
+        self.data["FRAMEIDENTIFIER"] = try Decode<UInt>().decode4Bytes(from: &iter)
+        self.data["PLAYERCARINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["SECONDARYPLAYERCARINDEX"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }
 

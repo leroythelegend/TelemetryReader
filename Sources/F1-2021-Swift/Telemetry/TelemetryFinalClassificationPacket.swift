@@ -13,9 +13,9 @@ class TelemetryFinalClassificationPacket: TelemetryPacket {
         try super.init(data: &iter)
      
         let carNumClassification: [TelemetryNumberClassificationCars] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.telemetryPackets["NUMCARS"] = carNumClassification
+        self.data["NUMCARS"] = carNumClassification
        
         let carFinalClassification: [TelemetryFinalClassification] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.telemetryPackets["FINALCLASSIFICATIONDATA"] = carFinalClassification
+        self.data["FINALCLASSIFICATIONDATA"] = carFinalClassification
     }
 }

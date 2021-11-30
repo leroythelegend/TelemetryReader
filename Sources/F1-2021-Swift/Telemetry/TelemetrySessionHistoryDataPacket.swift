@@ -16,12 +16,12 @@ class TelemetrySessionHistoryDataPacket: TelemetryPacket {
         try super.init(data: &iter)
 
         let sessionHistoryData: [TelemetrySessionHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.telemetryPackets["SESSIONHISTORYDATA"] = sessionHistoryData
+        self.data["SESSIONHISTORYDATA"] = sessionHistoryData
     
         let lapHistoryData: [TelemetryLapHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter, size: MaxLapHistory)
-        self.telemetryPackets["LAPHISTORYDATA"] = lapHistoryData
+        self.data["LAPHISTORYDATA"] = lapHistoryData
         
         let tyreStintHistoryData: [TelemetryTyreStintHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter, size: MaxTyresInHistory)
-        self.telemetryPackets["TYRESTINTHISTORYDATA"] = tyreStintHistoryData
+        self.data["TYRESTINTHISTORYDATA"] = tyreStintHistoryData
     }
 }

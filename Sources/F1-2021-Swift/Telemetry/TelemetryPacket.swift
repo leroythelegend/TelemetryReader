@@ -10,7 +10,7 @@ import Foundation
 class TelemetryPacket {
     
     typealias TelemetryPackets = Dictionary<String, [Telemetry]>
-    var telemetryPackets = TelemetryPackets()
+    var data = TelemetryPackets()
     
     let NumberOfParticipants = 22
     
@@ -18,12 +18,12 @@ class TelemetryPacket {
         // get header data
         var header: [Telemetry] = []
         header.append(try TelemetryHeader(data: &iter))
-        self.telemetryPackets["PACKETHEADER"] = header
+        self.data["PACKETHEADER"] = header
     }
 
     
     public func getTelemetryData(by name: String) throws -> [Telemetry] {
-        guard let result = self.telemetryPackets[name] else {
+        guard let result = self.data[name] else {
             throw TelemetryError.unknown(telemetry: name)
         }
         return result

@@ -13,9 +13,9 @@ class TelemetryMotionPacket: TelemetryPacket {
         try super.init(data: &iter)
 
         let carMotion: [TelemetryCarMotion] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.telemetryPackets["CARMOTIONDATA"] = carMotion
+        self.data["CARMOTIONDATA"] = carMotion
     
         let motion: [TelemetryMotion] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.telemetryPackets["MOTIONDATA"] = motion
+        self.data["MOTIONDATA"] = motion
     }
 }

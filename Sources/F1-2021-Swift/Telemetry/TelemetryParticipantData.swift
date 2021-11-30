@@ -12,14 +12,14 @@ class TelemetryParticipants: Telemetry {
     required init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
     
-        self.telemetry["AICONTROLLED"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["DRIVERID"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["NETWORKID"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["TEAMID"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["MYTEAM"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["RACENUMBER"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["NATIONALITY"] = try Decode<UInt>().decodeByte(from: &iter)
-        self.telemetry["NAME"] = try Decode<UInt>().decodeByte(amount: DescriptionStringLength, from: &iter)
-        self.telemetry["YOURTELEMETRY"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["AICONTROLLED"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["DRIVERID"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["NETWORKID"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["TEAMID"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["MYTEAM"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["RACENUMBER"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["NATIONALITY"] = try Decode<UInt>().decodeByte(from: &iter)
+        self.data["NAME"] = try Decode<UInt>().decodeByte(amount: DescriptionStringLength, from: &iter)
+        self.data["YOURTELEMETRY"] = try Decode<UInt>().decodeByte(from: &iter)
     }
 }
