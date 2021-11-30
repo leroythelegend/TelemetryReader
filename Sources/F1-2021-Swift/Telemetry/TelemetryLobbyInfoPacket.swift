@@ -12,10 +12,7 @@ class TelemetryLobbyInfoPacket: TelemetryPacket {
     override init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
        
-        let numberOfPlayers: [TelemetryNumberOfPlayers] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.data["NUMPLAYERS"] = numberOfPlayers
-
-        let lobbyInfo: [TelemetryLobbyInfo] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.data["LOBBYINFODATA"] = lobbyInfo
+        self.data["NUMPLAYERS"] = [TelemetryNumberOfPlayers](try TelemetryPacket.createTelemetryData(data: &iter))
+        self.data["LOBBYINFODATA"] = [TelemetryLobbyInfo](try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants))
     }
 }

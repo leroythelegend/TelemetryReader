@@ -12,10 +12,7 @@ class TelemetryFinalClassificationPacket: TelemetryPacket {
     override init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
      
-        let carNumClassification: [TelemetryNumberClassificationCars] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.data["NUMCARS"] = carNumClassification
-       
-        let carFinalClassification: [TelemetryFinalClassification] = try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants)
-        self.data["FINALCLASSIFICATIONDATA"] = carFinalClassification
+        self.data["NUMCARS"] = [TelemetryNumberClassificationCars](try TelemetryPacket.createTelemetryData(data: &iter))
+        self.data["FINALCLASSIFICATIONDATA"] = [TelemetryFinalClassification](try TelemetryPacket.createTelemetryData(data: &iter, size: NumberOfParticipants))
     }
 }

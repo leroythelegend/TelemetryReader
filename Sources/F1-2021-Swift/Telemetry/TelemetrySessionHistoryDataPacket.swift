@@ -15,13 +15,8 @@ class TelemetrySessionHistoryDataPacket: TelemetryPacket {
     override init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
 
-        let sessionHistoryData: [TelemetrySessionHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.data["SESSIONHISTORYDATA"] = sessionHistoryData
-    
-        let lapHistoryData: [TelemetryLapHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter, size: MaxLapHistory)
-        self.data["LAPHISTORYDATA"] = lapHistoryData
-        
-        let tyreStintHistoryData: [TelemetryTyreStintHistoryData] = try TelemetryPacket.createTelemetryData(data: &iter, size: MaxTyresInHistory)
-        self.data["TYRESTINTHISTORYDATA"] = tyreStintHistoryData
+        self.data["SESSIONHISTORYDATA"] = [TelemetrySessionHistoryData](try TelemetryPacket.createTelemetryData(data: &iter))
+        self.data["LAPHISTORYDATA"] = [TelemetryLapHistoryData](try TelemetryPacket.createTelemetryData(data: &iter, size: MaxLapHistory))
+        self.data["TYRESTINTHISTORYDATA"] = [TelemetryTyreStintHistoryData](try TelemetryPacket.createTelemetryData(data: &iter, size: MaxTyresInHistory))
     }
 }

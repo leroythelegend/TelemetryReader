@@ -12,10 +12,13 @@ class TelemetryEventPacket: TelemetryPacket {
     override init(data iter: inout Data.Iterator) throws {
         try super.init(data: &iter)
         
-        let eventString: [TelemetryEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
-        self.data["EVENTSTRING"] = eventString
+        self.data["EVENTSTRING"] = [TelemetryEvent](try TelemetryPacket.createTelemetryData(data: &iter))
         
-        switch String(try eventString[0].getTelemetryData(by: "EVENTSTRINGCODE").toString()) {
+        guard let data = self.data["EVENTSTRING"]?[0].data["EVENTSTRINGCODE"] else {
+            throw TelemetryError.unknown(telemetry: "EVENTSTRINGCODE")
+        }
+
+        switch data.toString() {
         case "BUTN":
             let event: [TelemetryButtonsEvent] = try TelemetryPacket.createTelemetryData(data: &iter)
             self.data["BUTTONS"] = event
