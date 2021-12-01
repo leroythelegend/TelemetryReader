@@ -11,6 +11,7 @@ import Foundation
 /// This details telemetry for all the cars in the race. It details various values that would be
 /// recorded on the car such as speed, throttle application, DRS etc.
 ///
+/// F1 2021 API
 /// ```
 /// struct CarTelemetryData
 /// {
