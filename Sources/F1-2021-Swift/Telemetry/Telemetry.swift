@@ -21,8 +21,7 @@ protocol Telemetry {
     var data: [String: [Double]] { get set }
     
     ///
-    /// - parameters:
-    ///   - data: Is an iterator of the data captured from the games output.
+    /// - parameter data: Is an iterator of the data captured from the games output.
     ///
 
     init(data iter: inout Data.Iterator) throws
