@@ -7,10 +7,10 @@
 
 import Foundation
 
-class TelemetryHeader: Telemetry {
-    var data: [String : [Double]] = [:]
+public class TelemetryHeader: Telemetry {
+    public var data: [String : [Double]] = [:]
     
-    required init(data iter: inout Data.Iterator) throws {
+    public required init(data iter: inout Data.Iterator) throws {
         self.data["PACKETFORMAT"] = try Decode<UInt>().decode2Bytes(from: &iter)
         self.data["GAMEMAJORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)
         self.data["GAMEMINORVERSION"] = try Decode<UInt>().decodeByte(from: &iter)

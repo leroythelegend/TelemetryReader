@@ -1,5 +1,6 @@
 import XCTest
 @testable import F1_2021_Swift
+import UDPReader
 
 final class F1_2021_SwiftTests: XCTestCase {
     func testDecodeFloat() throws {
@@ -518,6 +519,25 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(sessionHistoryData?.first!.data["BESTSECTOR2LAPNUM"]?.first!, 0)
         XCTAssertEqual(sessionHistoryData?.first!.data["BESTSECTOR3LAPNUM"]?.first!, 0)
     }
+    
+//    func testReader() throws {
+//        let udp = try! UDPReader(listen: "20777")
+//        
+//        while true {
+//            guard let data = udp.read(amount: 2048) else {
+//                continue
+//            }
+//            
+//            var iter = data.makeIterator()
+//            
+//            let packet = try! TelemetryHeader(data: &iter)
+//            
+//            print ("packet id \(String(describing: packet.data["PACKETID"]?.first))")
+//            print ("frame  id \(String(describing: packet.data["FRAMEIDENTIFIER"]?.first))")
+//            
+//            try! data.write(to: URL(fileURLWithPath: "./telemetry.bin"))
+//        }
+//    }
     
     func getDataFromTest(vector: String) -> Data {
         return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))

@@ -5,10 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "F1-2021-Swift",
+    platforms: [
+        .macOS(.v12)
+    ],
     products: [
-        .executable(
-            name: "F1-2021-CSV",
-            targets: ["F1-2021-CSV"]),
         .library(
             name: "F1-2021-Swift",
             targets: ["F1-2021-Swift"]),
@@ -19,7 +19,7 @@ let package = Package(
         .package(
             name: "UDPReader",
             url: "https://github.com/leroythelegend/UDPReader.git",
-            from: "1.0.1"
+            from: "1.0.3"
         )
     ],
     targets: [
@@ -27,13 +27,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "F1-2021-Swift",
-            dependencies: []),
-        .executableTarget(
-            name: "F1-2021-CSV",
-            dependencies: ["F1-2021-Swift"]),
+            dependencies: ["UDPReader"]),
         .testTarget(
             name: "F1-2021-SwiftTests",
-            dependencies: ["F1-2021-Swift"],
+            dependencies: ["F1-2021-Swift",
+                           "UDPReader"],
             resources: [
               // Copy Tests/ExampleTests/Resources directories as-is.
               // Use to retain directory structure.
