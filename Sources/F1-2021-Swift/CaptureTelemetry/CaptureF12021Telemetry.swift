@@ -11,6 +11,7 @@ import UDPReader
 public class CaptureF12021Telemetry : CaptureTelemetry {
     
     let amount = 2048
+    let creator = TelemetryF12021PacketCreator()
     var udp: Reader
     
     public init(reader: Reader) throws {
@@ -21,32 +22,7 @@ public class CaptureF12021Telemetry : CaptureTelemetry {
         guard var data = self.udp.read(amount: amount) else {
             return nil
         }
-        
-        guard let packetID = getPacketID(&data) else {
-            return nil
-        }
-        
-        return nil
-    }
-    
-    private func getPacketID(_ data: inout Data) -> (UInt?) {
-        var iter = data.makeIterator()
-        
-        do {
-            let header = try TelemetryHeader(data: &iter)
-            
-            guard let packetHeader = header.data["PACKETHEADER"] else {
-                return nil
-            }
-            
-            guard let result = packetHeader.first else {
-                return nil
-            }
-            
-            return UInt(result)
-        }
-        catch {
-            return nil
-        }
+
+        return creator.create(from: &data)
     }
 }
