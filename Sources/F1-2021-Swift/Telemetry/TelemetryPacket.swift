@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TelemetryPacket {
+public class TelemetryPacket {
     
     typealias TelemetryPackets = Dictionary<String, [Telemetry]>
     var data = TelemetryPackets()

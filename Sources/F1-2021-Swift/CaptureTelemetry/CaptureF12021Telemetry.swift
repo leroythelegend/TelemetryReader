@@ -16,7 +16,7 @@ public class CaptureF12021Telemetry : CaptureTelemetry {
         self.udp = reader
     }
     
-    public func capturePacket() -> TelemetryPacket? {
+    public func capturePacket() -> (TelemetryPacket?) {
         
         return nil
     }

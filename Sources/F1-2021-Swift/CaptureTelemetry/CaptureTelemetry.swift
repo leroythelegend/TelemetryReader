@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol CaptureTelemetry {
-    func capturePacket() -> TelemetryPacket?
+public protocol CaptureTelemetry {
+    func capturePacket() -> (TelemetryPacket?)
 }

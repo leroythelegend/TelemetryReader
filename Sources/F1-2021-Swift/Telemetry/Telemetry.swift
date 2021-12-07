@@ -11,7 +11,7 @@ import Foundation
 /// Different types of telemetry
 ///
 
-protocol Telemetry {
+public protocol Telemetry {
 
     ///
     /// String is the name of the type of telemetry

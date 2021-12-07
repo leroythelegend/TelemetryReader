@@ -520,7 +520,68 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(sessionHistoryData?.first!.data["BESTSECTOR3LAPNUM"]?.first!, 0)
     }
     
-    func testCaputre() throws {
+    func testFileReader() throws {
+        
+        let reader = TestFileReader(vector: "telemetry")
+        guard let packet = reader.read(amount: 2048) else {
+            XCTAssert(false)
+            return
+        }
+        
+        var iter = packet.makeIterator()
+        
+        var header = try TelemetryHeader(data: &iter)
+        
+        XCTAssertEqual(header.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(header.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(header.data["GAMEMINORVERSION"]?.first!, 12)
+        XCTAssertEqual(header.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(header.data["PACKETID"]?.first!, 2)
+        
+        iter = packet.makeIterator()
+        
+        let lapdata = try TelemetryLapDataPacket(data: &iter)
+        
+        var headers = lapdata.data["PACKETHEADER"]
+        
+        XCTAssertEqual(headers?.first!.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(headers?.first!.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(headers?.first!.data["GAMEMINORVERSION"]?.first!, 12)
+        XCTAssertEqual(headers?.first!.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(headers?.first!.data["PACKETID"]?.first!, 2)
+        
+        guard let packet = reader.read(amount: 2048) else {
+            XCTAssert(false)
+            return
+        }
+        
+        iter = packet.makeIterator()
+        
+        header = try TelemetryHeader(data: &iter)
+        
+        XCTAssertEqual(header.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(header.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(header.data["GAMEMINORVERSION"]?.first!, 12)
+        XCTAssertEqual(header.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(header.data["PACKETID"]?.first!, 0)
+    
+        iter = packet.makeIterator()
+        
+        let motion = try TelemetryMotionPacket(data: &iter)
+        
+        headers = motion.data["PACKETHEADER"]
+        
+        XCTAssertEqual(headers?.first!.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(headers?.first!.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(headers?.first!.data["GAMEMINORVERSION"]?.first!, 12)
+        XCTAssertEqual(headers?.first!.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(headers?.first!.data["PACKETID"]?.first!, 0)
+    }
+    
+    func testCapture() throws {
+        
+        let reader = TestFileReader(vector: "telemetry")
+        _ = try CaptureF12021Telemetry(reader: reader)
         
     }
     
@@ -569,7 +630,33 @@ final class F1_2021_SwiftTests: XCTestCase {
 //
 //    }
     
-    func getDataFromTest(vector: String) -> Data {
-        return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
+
+}
+
+func getDataFromTest(vector: String) -> Data {
+    return try! Data(contentsOf: URL(fileURLWithPath: Bundle.module.path(forResource: vector, ofType: "bin")!))
+}
+
+class TestFileReader: Reader {
+    
+    var base64Packets: [String]
+    
+    init(vector: String) {
+        let data = getDataFromTest(vector: vector)
+        guard let base64Data = String(data: data, encoding: .utf8) else {
+            base64Packets = []
+            return
+        }
+        
+        base64Packets = base64Data.components(separatedBy: .newlines)
+        _ = base64Packets.popLast() // remove the last packet because it is empty
+    }
+    
+    func read(amount: Int) -> (Data?) {
+        guard let packet = Data(base64Encoded: base64Packets.removeFirst()) else {
+            return nil
+        }
+        
+        return packet
     }
 }
