@@ -8,20 +8,16 @@
 import Foundation
 import UDPReader
 
-class CaptureF12021Telemetry : CaptureTelemetry {
+public class CaptureF12021Telemetry : CaptureTelemetry {
     
-    var udp: UDPReader
+    var udp: Reader
     
-    init(listen port: String) throws {
-        self.udp = try UDPReader(listen: port)
+    public init(reader: Reader) throws {
+        self.udp = reader
     }
     
-    func capture() -> [TelemetryPacket] {
-        // read packet
-        // decode header to find what packet to decode
-        // decode the frame
-        // decode telemetrypacket
+    public func capturePacket() -> TelemetryPacket? {
         
-        return []
+        return nil
     }
 }

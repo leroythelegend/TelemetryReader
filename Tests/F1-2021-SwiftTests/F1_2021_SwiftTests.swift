@@ -520,23 +520,53 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(sessionHistoryData?.first!.data["BESTSECTOR3LAPNUM"]?.first!, 0)
     }
     
+    func testCaputre() throws {
+        
+    }
+    
+    
 //    func testReader() throws {
 //        let udp = try! UDPReader(listen: "20777")
-//        
-//        while true {
-//            guard let data = udp.read(amount: 2048) else {
+//
+//        var telemetry = Data()
+//
+//        var count = 65000 // roughly 20000 a lap
+//
+//        while count != 0 {
+//            print("\(count)")
+//            count -= 1
+//            guard let data = udp.read(amount: 2048)?.base64EncodedData() else {
 //                continue
 //            }
-//            
-//            var iter = data.makeIterator()
-//            
+//
+//            telemetry.append(data)
+//            telemetry.append(0x0A) // new
+////            var iter = data.makeIterator()
+////
+////            let packet = try! TelemetryHeader(data: &iter)
+////
+////            print ("packet id \(String(describing: packet.data["PACKETID"]?.first))")
+////            print ("frame  id \(String(describing: packet.data["FRAMEIDENTIFIER"]?.first))")
+//
+//        }
+//
+//        try! telemetry.write(to: URL(fileURLWithPath: "/Users/leighmclean/Tmp/telemetry.bin"))
+//
+//        let data = try String(contentsOfFile: "/Users/leighmclean/Tmp/telemetry.bin", encoding: .utf8)
+//
+//        var myStrings = data.components(separatedBy: .newlines)
+//        _ = myStrings.popLast()
+//
+//        for d in myStrings {
+//            guard var iter = Data(base64Encoded: d)?.makeIterator() else {
+//                continue
+//            }
 //            let packet = try! TelemetryHeader(data: &iter)
-//            
+//
 //            print ("packet id \(String(describing: packet.data["PACKETID"]?.first))")
 //            print ("frame  id \(String(describing: packet.data["FRAMEIDENTIFIER"]?.first))")
-//            
-//            try! data.write(to: URL(fileURLWithPath: "./telemetry.bin"))
 //        }
+//
 //    }
     
     func getDataFromTest(vector: String) -> Data {

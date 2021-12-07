@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CaptureTelemetry {
-    func capture() -> [TelemetryPacket]
+    func capturePacket() -> TelemetryPacket?
 }

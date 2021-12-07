@@ -19,7 +19,7 @@ let package = Package(
         .package(
             name: "UDPReader",
             url: "https://github.com/leroythelegend/UDPReader.git",
-            from: "1.0.3"
+            from: "1.0.4"
         )
     ],
     targets: [
@@ -46,7 +46,8 @@ let package = Package(
               .copy("testVectors/history_packet.bin"),
               .copy("testVectors/car_telemetry.bin"),
               .copy("testVectors/lap_data.bin"),
-              .copy("testVectors/event_sptp.bin")
+              .copy("testVectors/event_sptp.bin"),
+              .copy("testVectors/telemetry.bin")
             ]),
     ]
 )
