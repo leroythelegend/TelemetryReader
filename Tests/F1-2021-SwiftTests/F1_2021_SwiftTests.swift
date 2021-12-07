@@ -70,10 +70,10 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testTelemetryCarDamage() throws {
         
-        let data = getDataFromTest(vector: "car_damage")
+        var data = getDataFromTest(vector: "car_damage")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryCarDamagePacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -116,10 +116,10 @@ final class F1_2021_SwiftTests: XCTestCase {
 
     func testTelemetryCarSetup() throws {
         
-        let data = getDataFromTest(vector: "car_setup")
+        var data = getDataFromTest(vector: "car_setup")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryCarSetupPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -154,13 +154,54 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(carSetup?[0].data["BALLAST"]?.first!, 6)
         XCTAssertEqual(carSetup?[0].data["FUELLOAD"]?.first!, 20)
     }
+    
+    func testCarStatus() throws {
+        var data = getDataFromTest(vector: "car_status")
+
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
+    
+        let header = packet?.data["PACKETHEADER"]
+        
+        XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(header?.first!.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(header?.first!.data["GAMEMINORVERSION"]?.first!, 5)
+        XCTAssertEqual(header?.first!.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(header?.first!.data["PACKETID"]?.first!, 7)
+        
+        let carStatus = packet?.data["CARSTATUS"]
+        
+        XCTAssertEqual(carStatus?[0].data["TRACTIONCONTROL"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["ANTILOCKBRAKES"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["FUELMIX"]?[0], 3)
+        XCTAssertEqual(carStatus?[0].data["FRONTBRAKEBIAS"]?[0], 58)
+        XCTAssertEqual(carStatus?[0].data["PITLIMITERSTATUS"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["FUELINTANK"]?[0], 10)
+        XCTAssertEqual(carStatus?[0].data["FUELCAPACITY"]?[0], 110)
+        XCTAssertEqual(carStatus?[0].data["FUELREMAININGLAPS"]?[0], 5.4395599365234375)
+        XCTAssertEqual(carStatus?[0].data["MAXRPM"]?[0], 13000)
+        XCTAssertEqual(carStatus?[0].data["IDLERPM"]?[0], 3499)
+        XCTAssertEqual(carStatus?[0].data["MAXGEARS"]?[0], 9)
+        XCTAssertEqual(carStatus?[0].data["DRSALLOWED"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["DRSACTIVATIONDISTANCE"]?[0], 144)
+        XCTAssertEqual(carStatus?[0].data["ACTUALTYRECOMPOUND"]?[0], 17)
+        XCTAssertEqual(carStatus?[0].data["VISUALTYRECOMPOUND"]?[0], 16)
+        XCTAssertEqual(carStatus?[0].data["TYRESAGELAPS"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["VEHICLEFIAFLAGS"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["ERSSTOREENERGY"]?[0], 4000000)
+        XCTAssertEqual(carStatus?[0].data["ERSDEPLOYMODE"]?[0], 2)
+        XCTAssertEqual(carStatus?[0].data["ERSHARVESTEDTHISLAPMGUK"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["ERSHARVESTEDTHISLAPMGUH"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["ERSDEPLOYEDTHISLAP"]?[0], 0)
+        XCTAssertEqual(carStatus?[0].data["NETWORKPAUSED"]?[0], 0)
+    }
 
     func testTelemetryCarData() throws {
         
-        let data = getDataFromTest(vector: "car_telemetry")
+        var data = getDataFromTest(vector: "car_telemetry")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryCarPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -213,10 +254,10 @@ final class F1_2021_SwiftTests: XCTestCase {
 
     func testTelemetrySpeedTrapEvent() throws {
         
-        let data = getDataFromTest(vector: "event_sptp")
+        var data = getDataFromTest(vector: "event_sptp")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryEventPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -240,10 +281,10 @@ final class F1_2021_SwiftTests: XCTestCase {
  
     func testFinalClassification() throws {
         
-        let data = getDataFromTest(vector: "event_sptp")
+        var data = getDataFromTest(vector: "event_sptp")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryEventPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -267,10 +308,10 @@ final class F1_2021_SwiftTests: XCTestCase {
 
     func testLapData() throws {
         
-        let data = getDataFromTest(vector: "lap_data")
+        var data = getDataFromTest(vector: "lap_data")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryLapDataPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -310,10 +351,10 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testMotionData() throws {
         
-        let data = getDataFromTest(vector: "motion_data")
+        var data = getDataFromTest(vector: "motion_data")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryMotionPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -376,10 +417,10 @@ final class F1_2021_SwiftTests: XCTestCase {
 
     func testParticipantsData() throws {
         
-        let data = getDataFromTest(vector: "participant_data")
+        var data = getDataFromTest(vector: "participant_data")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetryParticipantsDataPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -408,10 +449,10 @@ final class F1_2021_SwiftTests: XCTestCase {
     
     func testSessionData() throws {
         
-        let data = getDataFromTest(vector: "session_packet")
+        var data = getDataFromTest(vector: "session_packet")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetrySessionDataPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -479,10 +520,10 @@ final class F1_2021_SwiftTests: XCTestCase {
 
     func testSessionHistory() throws {
         
-        let data = getDataFromTest(vector: "history_packet")
+        var data = getDataFromTest(vector: "history_packet")
 
-        var iter = data.makeIterator()
-        let packet = try? TelemetrySessionHistoryDataPacket(data: &iter)
+        let creator = TelemetryF12021PacketCreator()
+        let packet = creator.create(from: &data)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -581,9 +622,34 @@ final class F1_2021_SwiftTests: XCTestCase {
     func testCapture() throws {
         
         let reader = TestFileReader(vector: "telemetry")
-        _ = try CaptureF12021Telemetry(reader: reader)
+        let capture = try CaptureF12021Telemetry(reader: reader)
         
+        guard let packet = capture.capturePacket() else {
+            XCTAssert(false)
+            return
+        }
+        
+        guard let header = packet.data["PACKETHEADER"] else {
+            XCTAssert(false)
+            return
+        }
+        
+        XCTAssertEqual(header.first!.data["PACKETFORMAT"]?.first!, 2021)
+        XCTAssertEqual(header.first!.data["GAMEMAJORVERSION"]?.first!, 1)
+        XCTAssertEqual(header.first!.data["GAMEMINORVERSION"]?.first!, 12)
+        XCTAssertEqual(header.first!.data["PACKETVERSION"]?.first!, 1)
+        XCTAssertEqual(header.first!.data["PACKETID"]?.first!, 2)
     }
+    
+//    func testTelemetryFactory() throws {
+//        
+//        var data = getDataFromTest(vector: "history_packet")
+//        let creator = TelemetryF12021PacketCreator()
+//        let packet = creator.create(from: &data)
+//        
+//        XCTAssertNil(packet)
+//        
+//    }
     
     
 //    func testReader() throws {

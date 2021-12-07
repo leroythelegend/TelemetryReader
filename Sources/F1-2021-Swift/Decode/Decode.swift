@@ -121,7 +121,7 @@ class Decode<T: Numeric> {
             return Double(Float32(bitPattern: UInt32(value)))
         }
         else if T.self is UInt.Type {
-            return Double(value)
+            return Double(UInt16(value))
         }
         else if T.self is Int.Type {
             return Double(toInt(value))
