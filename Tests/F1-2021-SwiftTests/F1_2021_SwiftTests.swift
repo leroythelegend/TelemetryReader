@@ -75,6 +75,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
         
+        XCTAssertEqual(packet?.getPacketType(), 10)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -121,6 +123,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
         
+        XCTAssertEqual(packet?.getPacketType(), 5)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -161,6 +165,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
     
+        XCTAssertEqual(packet?.getPacketType(), 7)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -202,6 +208,8 @@ final class F1_2021_SwiftTests: XCTestCase {
 
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
+        
+        XCTAssertEqual(packet?.getPacketType(), 6)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -259,6 +267,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
         
+        XCTAssertEqual(packet?.getPacketType(), 3)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -286,6 +296,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
         
+        XCTAssertEqual(packet?.getPacketType(), 3)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -312,6 +324,8 @@ final class F1_2021_SwiftTests: XCTestCase {
 
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
+        
+        XCTAssertEqual(packet?.getPacketType(), 2)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -355,6 +369,8 @@ final class F1_2021_SwiftTests: XCTestCase {
 
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
+        
+        XCTAssertEqual(packet?.getPacketType(), 0)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -422,6 +438,8 @@ final class F1_2021_SwiftTests: XCTestCase {
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
         
+        XCTAssertEqual(packet?.getPacketType(), 4)
+        
         let header = packet?.data["PACKETHEADER"]
         
         XCTAssertEqual(header?.first!.data["PACKETFORMAT"]?.first!, 2021)
@@ -453,6 +471,8 @@ final class F1_2021_SwiftTests: XCTestCase {
 
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
+        
+        XCTAssertEqual(packet?.getPacketType(), 1)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -524,6 +544,8 @@ final class F1_2021_SwiftTests: XCTestCase {
 
         let creator = TelemetryF12021PacketCreator()
         let packet = creator.create(from: &data)
+        
+        XCTAssertEqual(packet?.getPacketType(), 11)
         
         let header = packet?.data["PACKETHEADER"]
         
@@ -619,7 +641,7 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(headers?.first!.data["PACKETID"]?.first!, 0)
     }
     
-    func testCapture() throws {
+    func testCapturePacket() throws {
         
         let reader = TestFileReader(vector: "telemetry")
         let capture = try CaptureF12021Telemetry(reader: reader)
@@ -640,16 +662,16 @@ final class F1_2021_SwiftTests: XCTestCase {
         XCTAssertEqual(header.first!.data["PACKETVERSION"]?.first!, 1)
         XCTAssertEqual(header.first!.data["PACKETID"]?.first!, 2)
     }
-    
-//    func testTelemetryFactory() throws {
-//        
-//        var data = getDataFromTest(vector: "history_packet")
-//        let creator = TelemetryF12021PacketCreator()
-//        let packet = creator.create(from: &data)
-//        
-//        XCTAssertNil(packet)
-//        
-//    }
+
+    func testCapturePackets() throws {
+        
+        let reader = TestFileReader(vector: "telemetry")
+        let capture = try CaptureF12021Telemetry(reader: reader)
+        
+        let packets = capture.capturePackets()
+        
+        XCTAssertEqual(packets.frequency, "menu")
+    }
     
     
 //    func testReader() throws {
