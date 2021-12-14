@@ -668,9 +668,28 @@ final class F1_2021_SwiftTests: XCTestCase {
         let reader = TestFileReader(vector: "telemetry")
         let capture = try CaptureF12021Telemetry(reader: reader)
         
-        let packets = capture.capturePackets()
+        var count = 2001
+        while count != 0 {
+            count -= 1
+            let packet = capture.capturePackets()
+            if packet.frequency == "menu" {
+                XCTAssertNotEqual(packet.telemetry.count, 0)
+            }
+            if packet.frequency == "twoSec" {
+                XCTAssertNotEqual(packet.telemetry.count, 0)
+            }
+            if packet.frequency == "fiveSec" {
+                XCTAssertNotEqual(packet.telemetry.count, 0)
+            }
+            if packet.frequency == "event" {
+                XCTAssertNotEqual(packet.telemetry.count, 0)
+            }
+            if packet.frequency == "history" {
+                XCTAssertNotEqual(packet.telemetry.count, 0)
+            }
+        }
         
-        XCTAssertEqual(packets.frequency, "menu")
+        // XCTAssertEqual(packets.frequency, "menu")
     }
     
     
@@ -741,6 +760,9 @@ class TestFileReader: Reader {
     }
     
     func read(amount: Int) -> (Data?) {
+        guard !base64Packets.isEmpty else {
+            return nil
+        }
         guard let packet = Data(base64Encoded: base64Packets.removeFirst()) else {
             return nil
         }

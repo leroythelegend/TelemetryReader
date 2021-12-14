@@ -23,6 +23,9 @@ public class CaptureF12021Telemetry : CaptureTelemetry {
     var lobbyPackets: [TelemetryPacket] = []
     var historyPackets: [TelemetryPacket] = []
     
+    var menuFrame: UInt = 0
+    var twoSecFrame: UInt = 0
+    
     public init(reader: Reader) throws {
         self.udp = reader
     }
@@ -37,14 +40,6 @@ public class CaptureF12021Telemetry : CaptureTelemetry {
     
     public func capturePackets() -> (frequency: String, telemetry: [TelemetryPacket]) {
         
-        // Menu Motion, Lap Data, Car Telemetry, Car Status
-        // 2 per second Session, car setups, Car damage
-        // Event
-        // 5 seconds Participants
-        // End of Race
-        // 2 per second in lobby lobby
-        // 20 per second but cycling through cars Session history
-        
         guard let packet = capturePacket() else {
             return ("empty", [])
         }
@@ -53,11 +48,96 @@ public class CaptureF12021Telemetry : CaptureTelemetry {
             return ("empty", [])
         }
 
+        guard let frame = getFrame(packet) else {
+            return ("empty", [])
+        }
+        
         switch packetid {
         case 0, 2, 6, 7:
-            return ("menu", menuPackets)
+            return getMenuFrames(&self.menuPackets, packet, frame)
+        case 1, 5, 10:
+            return getTwoSecondFrames(&self.sessionPackets, packet, frame)
+        case 3:
+            return ("event", getSinglePacket(&self.eventPackets, packet))
+        case 4:
+            return ("fiveSec", getSinglePacket(&self.participantPackets, packet))
+        case 8:
+            return ("endOfRace", getSinglePacket(&self.endOfRacePackets, packet))
+        case 9:
+            return ("lobby", getSinglePacket(&self.lobbyPackets, packet))
+        case 11:
+            return ("history", getSinglePacket(&self.historyPackets, packet))
         default:
             return ("empty", [])
         }
+    }
+    
+    private func getSinglePacket(_ packets: inout [TelemetryPacket], _ packet: TelemetryPacket) -> [TelemetryPacket] {
+        packets.append(packet)
+        defer {
+            packets.removeAll()
+            packets.append(packet)
+        }
+        return packets
+    }
+    
+    private func getMenuFrames(_ packets: inout [TelemetryPacket], _ packet: TelemetryPacket,_ frame: UInt) -> (frequency: String, telemetry: [TelemetryPacket]) {
+        if self.menuFrame == 0 {
+            self.menuFrame = frame
+        }
+        
+        if self.menuFrame == frame {
+            packets.append(packet)
+        }
+        
+        if frame > menuFrame {
+            self.menuFrame = frame
+            defer {
+                packets.removeAll()
+                packets.append(packet)
+            }
+            return ("menu", packets)
+        }
+        return ("empty", [])
+    }
+    
+    private func getTwoSecondFrames(_ packets: inout [TelemetryPacket], _ packet: TelemetryPacket,_ frame: UInt) -> (frequency: String, telemetry: [TelemetryPacket]) {
+        if self.twoSecFrame == 0 {
+            self.twoSecFrame = frame
+        }
+        
+        if self.twoSecFrame == frame {
+            packets.append(packet)
+        }
+        
+        if frame > self.twoSecFrame {
+            self.twoSecFrame = frame
+            defer {
+                packets.removeAll()
+                packets.append(packet)
+            }
+            return ("twoSec", packets)
+        }
+        return ("empty", [])
+    }
+    
+    private func getFrame(_ packet: TelemetryPacket) -> (UInt?) {
+        guard let header = packet.data["PACKETHEADER"] else {
+            return nil
+        }
+        
+        guard let data = header.first else {
+            return nil
+        }
+        
+        guard let frameids = data.data["FRAMEIDENTIFIER"] else {
+            return nil
+        }
+        
+        guard let frameid = frameids.first else {
+            return nil
+        }
+        
+        return UInt(frameid)
     }
 }
